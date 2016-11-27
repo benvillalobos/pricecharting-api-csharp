@@ -29,11 +29,11 @@ namespace PriceChartingAPI
         }
 
         /// <summary>
-        /// Searches by query for any product.
+        /// Searches for any products that match the query.
         /// </summary>
         /// <param name="query">The query string to search by.</param>
         /// <returns>A list of products matching the query.</returns>
-        public async Task<List<Product>> SearchProducts(string query)
+        public async Task<List<Product>> SearchProductsByQuery(string query)
         {
             Url reqUrl = baseURL.AppendPathSegment("products");
             reqUrl.SetQueryParam("q", query);
@@ -47,15 +47,49 @@ namespace PriceChartingAPI
         }
 
         /// <summary>
-        /// Searches by query for a single product.
+        /// Searches for a single product that matches the query.
         /// </summary>
         /// <param name="query">The query string to search by.</param>
         /// <returns>A single product.</returns>
-        public async Task<Product> SearchProduct(string query)
+        public async Task<Product> SearchProductByQuery(string query)
         {
             Url reqUrl = baseURL.AppendPathSegment("product");
-            reqUrl.SetQueryParam("q", query);
             reqUrl.SetQueryParam("t", ApiKey);
+            reqUrl.SetQueryParam("q", query);
+
+            using (var client = this.client)
+            {
+                return await client.WithUrl(reqUrl).GetJsonAsync<Product>();
+            }
+        }
+
+        /// <summary>
+        /// Searches for a single product with a matching PriceCharting ID.
+        /// </summary>
+        /// <param name="id">The PriceCharting ID of the product to search for.</param>
+        /// <returns>A single product.</returns>
+        public async Task<Product> SearchProductByID(int id)
+        {
+            Url reqUrl = baseURL.AppendPathSegment("product");
+            reqUrl.SetQueryParam("t", ApiKey);
+            reqUrl.SetQueryParam("id", id);
+
+            using (var client = this.client)
+            {
+                return await client.WithUrl(reqUrl).GetJsonAsync<Product>();
+            }
+        }
+
+        /// <summary>
+        /// Searches for a single product with a matching UPC.
+        /// </summary>
+        /// <param name="upc">The UPC of the product to search for.</param>
+        /// <returns>A single product.</returns>
+        public async Task<Product> SearchProductByUPC(string upc)
+        {
+            Url reqUrl = baseURL.AppendPathSegment("product");
+            reqUrl.SetQueryParam("t", ApiKey);
+            reqUrl.SetQueryParam("upc", upc);
 
             using (var client = this.client)
             {

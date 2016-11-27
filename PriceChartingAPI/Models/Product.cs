@@ -83,7 +83,7 @@ namespace PriceChartingAPI
         /// The date the game was originally released.
         /// </summary>
         [JsonProperty("release-date")]
-        public string ReleaseData { get; internal set; }
+        public DateTime ReleaseDate { get; internal set; }
 
         /// <summary>
         /// The recommended price for retailers buying from a customer in CIB (complete in box) condition.

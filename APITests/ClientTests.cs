@@ -8,7 +8,8 @@ namespace APITests
     [TestClass]
     public class ClientTests
     {
-        string ValidApiKey = "ReplaceWithValidAPIKey";
+        string ValidApiKey = "Valid API Key Goes Here";
+
         [TestMethod]
         public void CorrectlySetsAPIKey()
         {
@@ -21,7 +22,7 @@ namespace APITests
         public void CorrectlyParsesListOfProducts()
         {
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            List<Product> products = client.SearchProducts("earthbound").Result;
+            List<Product> products = client.SearchProductsByQuery("earthbound").Result;
             Assert.AreEqual(products[0].Name, "EarthBound");
         }
 
@@ -29,7 +30,23 @@ namespace APITests
         public void CorrectlyParsesSingleProduct()
         {
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            Product product = client.SearchProduct("earthbound").Result;
+            Product product = client.SearchProductByQuery("earthbound").Result;
+            Assert.AreEqual(product.Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void CorrectlySearchesByID()
+        {
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            Product product = client.SearchProductByID(6910).Result;
+            Assert.AreEqual(product.Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void CorrectlySearchesByUPC()
+        {
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            Product product = client.SearchProductByUPC("045496830434").Result;
             Assert.AreEqual(product.Name, "EarthBound");
         }
     }
