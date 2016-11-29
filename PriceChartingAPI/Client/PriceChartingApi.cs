@@ -19,6 +19,11 @@ namespace PriceChartingAPI
 
         private FlurlClient client = new FlurlClient(baseURL);
 
+        private Url getRequest(bool multipleProducts = false)
+        {
+            return baseURL.AppendPathSegment("product" + (multipleProducts ? "s" : "")).SetQueryParam("t", ApiKey);
+        }
+
         /// <summary>
         /// Creates a new instance of the PriceChartingClient class.
         /// </summary>
@@ -35,13 +40,10 @@ namespace PriceChartingAPI
         /// <returns>A list of products matching the query.</returns>
         public async Task<List<Product>> SearchProductsByQuery(string query)
         {
-            Url reqUrl = baseURL.AppendPathSegment("products");
-            reqUrl.SetQueryParam("q", query);
-            reqUrl.SetQueryParam("t", ApiKey);
-
+            Url url = getRequest().SetQueryParam("q", query);
             using (var client = this.client)
             {
-                var list = await client.WithUrl(reqUrl).GetJsonAsync<ListWrapper>();
+                var list = await client.WithUrl(getRequest(true).SetQueryParam("q", query)).GetJsonAsync<ListWrapper>();
                 return list?.Products.ToList() ?? new List<Product>();
             }
         }
@@ -53,13 +55,9 @@ namespace PriceChartingAPI
         /// <returns>A single product.</returns>
         public async Task<Product> SearchProductByQuery(string query)
         {
-            Url reqUrl = baseURL.AppendPathSegment("product");
-            reqUrl.SetQueryParam("t", ApiKey);
-            reqUrl.SetQueryParam("q", query);
-
             using (var client = this.client)
             {
-                return await client.WithUrl(reqUrl).GetJsonAsync<Product>();
+                return await client.WithUrl(getRequest().SetQueryParam("q", query)).GetJsonAsync<Product>();
             }
         }
 
@@ -70,13 +68,9 @@ namespace PriceChartingAPI
         /// <returns>A single product.</returns>
         public async Task<Product> SearchProductByID(int id)
         {
-            Url reqUrl = baseURL.AppendPathSegment("product");
-            reqUrl.SetQueryParam("t", ApiKey);
-            reqUrl.SetQueryParam("id", id);
-
             using (var client = this.client)
             {
-                return await client.WithUrl(reqUrl).GetJsonAsync<Product>();
+                return await client.WithUrl(getRequest().SetQueryParam("id", id)).GetJsonAsync<Product>();
             }
         }
 
@@ -87,13 +81,9 @@ namespace PriceChartingAPI
         /// <returns>A single product.</returns>
         public async Task<Product> SearchProductByUPC(string upc)
         {
-            Url reqUrl = baseURL.AppendPathSegment("product");
-            reqUrl.SetQueryParam("t", ApiKey);
-            reqUrl.SetQueryParam("upc", upc);
-
             using (var client = this.client)
             {
-                return await client.WithUrl(reqUrl).GetJsonAsync<Product>();
+                return await client.WithUrl(getRequest().SetQueryParam("upc", upc)).GetJsonAsync<Product>();
             }
         }
     }

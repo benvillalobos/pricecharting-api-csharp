@@ -8,7 +8,15 @@ namespace APITests
     [TestClass]
     public class ClientTests
     {
-        string ValidApiKey = "Valid API Key Goes Here";
+        string ValidApiKey = "InsertKey";
+
+        private void VerifyAPIKey()
+        {
+            if (ValidApiKey == "InsertKey")
+            {
+                throw new Exception("Don't forget to add your API Key");
+            }
+        }
 
         [TestMethod]
         public void CorrectlySetsAPIKey()
@@ -21,6 +29,7 @@ namespace APITests
         [TestMethod]
         public void CorrectlyParsesListOfProducts()
         {
+            VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
             List<Product> products = client.SearchProductsByQuery("earthbound").Result;
             Assert.AreEqual(products[0].Name, "EarthBound");
@@ -29,6 +38,7 @@ namespace APITests
         [TestMethod]
         public void CorrectlyParsesSingleProduct()
         {
+            VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
             Product product = client.SearchProductByQuery("earthbound").Result;
             Assert.AreEqual(product.Name, "EarthBound");
@@ -37,6 +47,7 @@ namespace APITests
         [TestMethod]
         public void CorrectlySearchesByID()
         {
+            VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
             Product product = client.SearchProductByID(6910).Result;
             Assert.AreEqual(product.Name, "EarthBound");
@@ -45,6 +56,7 @@ namespace APITests
         [TestMethod]
         public void CorrectlySearchesByUPC()
         {
+            VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
             Product product = client.SearchProductByUPC("045496830434").Result;
             Assert.AreEqual(product.Name, "EarthBound");
