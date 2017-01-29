@@ -31,7 +31,16 @@ namespace APITests
         {
             VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            List<Product> products = client.SearchProductsByQuery("earthbound").Result;
+            List<Product> products = client.SearchProductsByQuery("earthbound");
+            Assert.AreEqual(products[0].Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void CorrectlyParsesListOfProductsAsync()
+        {
+            VerifyAPIKey();
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            List<Product> products = client.SearchProductsByQueryAsync("earthbound").Result;
             Assert.AreEqual(products[0].Name, "EarthBound");
         }
 
@@ -40,7 +49,16 @@ namespace APITests
         {
             VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            Product product = client.SearchProductByQuery("earthbound").Result;
+            Product product = client.SearchProductByQuery("earthbound");
+            Assert.AreEqual(product.Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void CorrectlyParsesSingleProductAsync()
+        {
+            VerifyAPIKey();
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            Product product = client.SearchProductByQueryAsync("earthbound").Result;
             Assert.AreEqual(product.Name, "EarthBound");
         }
 
@@ -49,16 +67,34 @@ namespace APITests
         {
             VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            Product product = client.SearchProductByID(6910).Result;
+            Product product = client.SearchProductByID(6910);
             Assert.AreEqual(product.Name, "EarthBound");
         }
 
         [TestMethod]
-        public void CorrectlySearchesByUPC()
+        public void CorrectlySearchesByIDAsync()
         {
             VerifyAPIKey();
             PriceChartingApi client = new PriceChartingApi(ValidApiKey);
-            Product product = client.SearchProductByUPC("045496830434").Result;
+            Product product = client.SearchProductByIDAsync(6910).Result;
+            Assert.AreEqual(product.Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void SearchesByUPC()
+        {
+            VerifyAPIKey();
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            Product product = client.SearchProductByUPC("045496830434");
+            Assert.AreEqual(product.Name, "EarthBound");
+        }
+
+        [TestMethod]
+        public void SearchesByUPCAsync()
+        {
+            VerifyAPIKey();
+            PriceChartingApi client = new PriceChartingApi(ValidApiKey);
+            Product product = client.SearchProductByUPCAsync("045496830434").Result;
             Assert.AreEqual(product.Name, "EarthBound");
         }
     }
