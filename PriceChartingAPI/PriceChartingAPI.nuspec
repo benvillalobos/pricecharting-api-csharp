@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>PriceCharting.Api</id>
+    <version>1.1.0</version>
+    <authors>Ben Villalobos</authors>
+    <owners>Ben Villalobos</owners>
+    <projectUrl>https://github.com/BenVillalobos/pricecharting-api-csharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A library to access and use the data behind the PriceCharting API.</description>
+    <releaseNotes>See README.</releaseNotes>
+    <copyright>Copyright © Ben Villalobos 2017</copyright>
+    <tags>pricecharting</tags>
+    <dependencies>
+      <dependency id="Flurl" version="2.2.1" />
+      <dependency id="Flurl.Http" version="1.0.3" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+    </dependencies>
+  </metadata>
+</package>
